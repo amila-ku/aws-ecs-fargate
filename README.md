@@ -8,13 +8,16 @@
 brew install terraform
 ```
 
-2. Create a S3 bucket
+2. Create AWS account
+[Create account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/#:~:text=Sign%20up%20using%20your%20email,Create%20a%20new%20AWS%20account.) and [create user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html)
+
+3. Create a S3 bucket
 
 ```
 aws s3api create-bucket --bucket terraform-backend-store-<your_projectname> --region eu-central-1 --create-bucket-configuration LocationConstraint=eu-central-1
 ```
 
-3. Set credential for AWS user
+4. Set credential for AWS user
 If you want to use existing user add aws access keys in ~/.aws/credentials and set the profile to use
 
 ```

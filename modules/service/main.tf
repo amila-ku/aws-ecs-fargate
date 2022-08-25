@@ -153,29 +153,29 @@ resource "aws_ecs_task_definition" "main" {
       }
     }
     dependsOn = [
-        {
-          "containerName": "${var.name}-container-${var.environment}-dbinit",
-          "condition": "START"
-        }
-      ]
-    secrets = var.container_secrets
-  },
-  {
-    # init container is used to setup database
-    name        = "${var.name}-container-${var.environment}-dbinit" 
-    image       = var.container_image
-    essential   = false
-    environment = var.container_environment
-    command     = ["updatedb"]
-    logConfiguration = {
-      logDriver = "awslogs"
-      options = {
-        awslogs-group         = aws_cloudwatch_log_group.main.name
-        awslogs-stream-prefix = "ecs"
-        awslogs-region        = var.region
+      {
+        "containerName" : "${var.name}-container-${var.environment}-dbinit",
+        "condition" : "START"
       }
-    }
+    ]
     secrets = var.container_secrets
+    },
+    {
+      # init container is used to setup database
+      name        = "${var.name}-container-${var.environment}-dbinit"
+      image       = var.container_image
+      essential   = false
+      environment = var.container_environment
+      command     = ["updatedb"]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = aws_cloudwatch_log_group.main.name
+          awslogs-stream-prefix = "ecs"
+          awslogs-region        = var.region
+        }
+      }
+      secrets = var.container_secrets
   }])
 
   tags = {
@@ -330,17 +330,17 @@ resource "aws_alb_listener" "http" {
 
 # Redirect traffic to target group
 resource "aws_alb_listener" "https" {
-    load_balancer_arn = aws_lb.main.id
-    port              = 443
-    protocol          = "HTTPS"
+  load_balancer_arn = aws_lb.main.id
+  port              = 443
+  protocol          = "HTTPS"
 
-    ssl_policy        = "ELBSecurityPolicy-2016-08"
-    certificate_arn   = var.alb_tls_cert_arn
+  ssl_policy      = "ELBSecurityPolicy-2016-08"
+  certificate_arn = var.alb_tls_cert_arn
 
-    default_action {
-        target_group_arn = aws_alb_target_group.main.id
-        type             = "forward"
-    }
+  default_action {
+    target_group_arn = aws_alb_target_group.main.id
+    type             = "forward"
+  }
 }
 
 output "aws_alb_target_group_arn" {

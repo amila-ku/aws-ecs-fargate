@@ -45,12 +45,12 @@ variable "service_desired_count" {
 
 variable "container_environment" {
   description = "The container environmnent variables"
-  type        = list
+  type        = list(any)
 }
 
 variable "container_secrets" {
   description = "The container secret environmnent variables"
-  type        = list
+  type        = list(any)
 }
 
 variable "container_secrets_arns" {

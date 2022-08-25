@@ -20,13 +20,13 @@ variable "aws-region" {
 
 variable "owner" {
   description = "the name of your stack, e.g. \"demo\""
-  default = "ak"
+  default     = "ak"
 }
 
 
 variable "application-secrets" {
   description = "A map of secrets that is passed into the application. Formatted like ENV_VAR = VALUE"
-  type        = map
+  type        = map(any)
 }
 
 
@@ -81,17 +81,17 @@ variable "tsl_certificate_arn" {
 
 variable "container_image" {
   description = "Docker image to be launched"
-  default = "servian/techchallengeapp:latest"
+  default     = "servian/techchallengeapp:latest"
 }
 
 variable "cpu_scaling_target" {
   description = "Threshold value when CPU based scaling will be triggered"
-  default = 80
+  default     = 80
 }
 
 variable "memory_scaling_target" {
   description = "Threshold value when Memory based scaling will be triggered"
-  default = 70
+  default     = 70
 }
 
 variable "scaling_min_capacity" {

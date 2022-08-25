@@ -17,20 +17,20 @@ module "secrets" {
 }
 
 module "svc" {
-  source                      = "../modules/service"
-  name                        = var.name
-  environment                 = var.environment
-  owner                       = var.owner
-  region                      = var.aws-region
-  vpc_id                      = module.vpc.id
-  subnets                     = module.vpc.private_subnets
-  public_subnets              = module.vpc.public_subnets
-  container_image             = var.container_image
-  container_port              = var.container_port
-  container_cpu               = var.container_cpu
-  container_memory            = var.container_memory
-  service_desired_count       = var.service_desired_count
-  alb_tls_cert_arn            = var.tsl_certificate_arn
+  source                = "../modules/service"
+  name                  = var.name
+  environment           = var.environment
+  owner                 = var.owner
+  region                = var.aws-region
+  vpc_id                = module.vpc.id
+  subnets               = module.vpc.private_subnets
+  public_subnets        = module.vpc.public_subnets
+  container_image       = var.container_image
+  container_port        = var.container_port
+  container_cpu         = var.container_cpu
+  container_memory      = var.container_memory
+  service_desired_count = var.service_desired_count
+  alb_tls_cert_arn      = var.tsl_certificate_arn
   container_environment = [
     { name = "VTT_DBHOST",
     value = module.aurora.cluster_endpoint },
@@ -44,10 +44,10 @@ module "svc" {
   container_secrets      = module.secrets.secrets_map
   container_secrets_arns = module.secrets.application_secrets_arn
   health_check_path      = var.health_check_path
-  cpu_scaling_target = var.cpu_scaling_target
-  memory_scaling_target = var.memory_scaling_target
-  scaling_min_capacity = var.scaling_min_capacity
-  scaling_max_capacity = var.scaling_max_capacity
+  cpu_scaling_target     = var.cpu_scaling_target
+  memory_scaling_target  = var.memory_scaling_target
+  scaling_min_capacity   = var.scaling_min_capacity
+  scaling_max_capacity   = var.scaling_max_capacity
 }
 
 
@@ -65,11 +65,11 @@ module "aurora" {
   master_username = "postgres"
   master_password = "changeme"
 
-  vpc_id                = module.vpc.id
-  subnets               = module.vpc.private_subnets.*.id
-  create_security_group = true
-  allowed_cidr_blocks   = [var.cidr]
-  allowed_security_groups  = [module.svc.ecs_tasks_security_group]
+  vpc_id                  = module.vpc.id
+  subnets                 = module.vpc.private_subnets.*.id
+  create_security_group   = true
+  allowed_cidr_blocks     = [var.cidr]
+  allowed_security_groups = [module.svc.ecs_tasks_security_group]
 
   monitoring_interval = 60
 
